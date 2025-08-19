@@ -151,7 +151,11 @@ class RLHFDataset(Dataset):
             )
 
     def _build_messages(self, example: dict[str, Any]) -> list[dict[str, Any]]:
-        prompt_str: str = example[self.prompt_key]
+        # If there's no prompt_key but there is a template, allow prompt to be empty string
+        if self.prompt_key not in example and self.format_prompt:
+            prompt_str = ""
+        else:
+            prompt_str: str = example[self.prompt_key]
         if self.format_prompt:
             format_prompt = Template(self.format_prompt.strip())
             prompt_str = format_prompt.render(content=prompt_str)
