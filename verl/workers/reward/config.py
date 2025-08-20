@@ -27,6 +27,8 @@ class RewardConfig:
     reward_function_kwargs: dict = field(default_factory=dict)
     skip_special_tokens: bool = True
     num_cpus: int = 1
+    # GPU resources for reward computation (0 = CPU only, >0 = use GPU)
+    num_gpus: int = 0  
     # below are auto keys
     reward_function_name: Optional[str] = field(default=None, init=False)
 

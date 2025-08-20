@@ -72,7 +72,10 @@ class Runner:
         else:
             raise NotImplementedError(f"Unknown reward type {config.worker.reward.reward_type}.")
 
-        RemoteRewardManager = ray.remote(RewardManager).options(num_cpus=config.worker.reward.num_cpus)
+        RemoteRewardManager = ray.remote(RewardManager).options(
+            num_cpus=config.worker.reward.num_cpus,
+            num_gpus=config.worker.reward.num_gpus
+        )
         reward_fn = RemoteRewardManager.remote(config.worker.reward, tokenizer)
         val_reward_fn = RemoteRewardManager.remote(config.worker.reward, tokenizer)
 
